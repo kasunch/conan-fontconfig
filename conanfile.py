@@ -51,7 +51,8 @@ class FontconfigConan(ConanFile):
 
     def _configure_autotools(self):
         if not self._autotools:
-            args = ["--enable-static=%s" % ("no" if self.options.shared else "yes"),
+            args = ["--sysconfdir=/etc",
+                    "--enable-static=%s" % ("no" if self.options.shared else "yes"),
                     "--enable-shared=%s" % ("yes" if self.options.shared else "no"),
                     "--disable-docs"]
             self._autotools = AutoToolsBuildEnvironment(self)
