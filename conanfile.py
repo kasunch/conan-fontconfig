@@ -51,8 +51,7 @@ class FontconfigConan(ConanFile):
 
     def _configure_autotools(self):
         if not self._autotools:
-            args = ["--sysconfdir=/etc",
-                    "--enable-static=%s" % ("no" if self.options.shared else "yes"),
+            args = ["--enable-static=%s" % ("no" if self.options.shared else "yes"),
                     "--enable-shared=%s" % ("yes" if self.options.shared else "no"),
                     "--disable-docs"]
             self._autotools = AutoToolsBuildEnvironment(self)
@@ -66,6 +65,20 @@ class FontconfigConan(ConanFile):
                 os.rename(old, new)
         #  - fontconfig requires libtool version number, change it for the corresponding freetype one
         tools.replace_in_file(os.path.join(self._source_subfolder, 'configure'), '21.0.15', '2.8.1')
+        # The default FONTCONFIG_PATH on most of the *nix systems is /etc.
+        # Set FONTCONFIG_PATH only to source files to use it in the library by default.   
+        tools.replace_in_file(os.path.join(self._source_subfolder, 'src', 'Makefile.am'), 
+                              '-DFONTCONFIG_PATH=\'"$(BASECONFIGDIR)"\'', 
+                              '-DFONTCONFIG_PATH=\'"/etc"\'')
+        tools.replace_in_file(os.path.join(self._source_subfolder, 'src', 'Makefile.in'), 
+                              '-DFONTCONFIG_PATH=\'"$(BASECONFIGDIR)"\'', 
+                              '-DFONTCONFIG_PATH=\'"/etc"\'')
+        tools.replace_in_file(os.path.join(self._source_subfolder, 'test', 'Makefile.am'), 
+                              '-DFONTCONFIG_PATH=\'"$(BASECONFIGDIR)"\'', 
+                              '-DFONTCONFIG_PATH=\'"/etc"\'')
+        tools.replace_in_file(os.path.join(self._source_subfolder, 'test', 'Makefile.in'), 
+                              '-DFONTCONFIG_PATH=\'"$(BASECONFIGDIR)"\'', 
+                              '-DFONTCONFIG_PATH=\'"/etc"\'')
         rename_if_exists('freetype.pc', 'freetype2.pc')
 
     def build(self):
