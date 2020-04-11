@@ -16,7 +16,7 @@ extends:
     # Common build settings
     conanArchs: "x86_64"
     conanBuildTypes: "Release"
-    conanStableBranchPattern: "release/*"
+    conanStableBranchPattern: "release-kasun/*"
     # GCC specific
     linuxGCCVersions: "7"
     # Apple clang specific
