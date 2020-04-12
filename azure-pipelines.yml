@@ -15,7 +15,7 @@ extends:
     enableLinuxGCCBuilds: true
     # Common build settings
     conanArchs: "x86_64"
-    conanBuildTypes: "Release"
+    conanBuildTypes: "Debug,Release"
     conanStableBranchPattern: "release-kasun/*"
     # GCC specific
     linuxGCCVersions: "7"
