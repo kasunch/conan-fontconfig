@@ -65,27 +65,6 @@ class FontconfigConan(ConanFile):
                 os.rename(old, new)
         #  - fontconfig requires libtool version number, change it for the corresponding freetype one
         tools.replace_in_file(os.path.join(self._source_subfolder, 'configure'), '21.0.15', '2.8.1')
-        # The default FONTCONFIG_PATH on most of the *nix systems is /etc.
-        # Set FONTCONFIG_PATH only to source files to use it in the library by default.   
-        tools.replace_in_file(os.path.join(self._source_subfolder, 'src', 'Makefile.am'), 
-                              '-DFONTCONFIG_PATH=\'"$(BASECONFIGDIR)"\'', 
-                              '-DFONTCONFIG_PATH=\'"/etc/fonts"\'')
-        tools.replace_in_file(os.path.join(self._source_subfolder, 'src', 'Makefile.in'), 
-                              '-DFONTCONFIG_PATH=\'"$(BASECONFIGDIR)"\'', 
-                              '-DFONTCONFIG_PATH=\'"/etc/fonts"\'')
-        tools.replace_in_file(os.path.join(self._source_subfolder, 'test', 'Makefile.am'), 
-                              '-DFONTCONFIG_PATH=\'"$(BASECONFIGDIR)"\'', 
-                              '-DFONTCONFIG_PATH=\'"/etc/fonts"\'')
-        tools.replace_in_file(os.path.join(self._source_subfolder, 'test', 'Makefile.in'), 
-                              '-DFONTCONFIG_PATH=\'"$(BASECONFIGDIR)"\'', 
-                              '-DFONTCONFIG_PATH=\'"/etc/fonts"\'')
-        # Disable test cases to avoid build errors
-        tools.replace_in_file(os.path.join(self._source_subfolder, 'Makefile.am'), 
-                              'RUN_FC_CACHE_TEST=test -z "$(DESTDIR)"', 
-                              'RUN_FC_CACHE_TEST=false')
-        tools.replace_in_file(os.path.join(self._source_subfolder, 'Makefile.in'), 
-                              'RUN_FC_CACHE_TEST = test -z "$(DESTDIR)"', 
-                              'RUN_FC_CACHE_TEST = false')
         rename_if_exists('freetype.pc', 'freetype2.pc')
 
     def build(self):
