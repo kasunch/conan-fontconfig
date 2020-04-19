@@ -65,8 +65,8 @@ class FontconfigConan(ConanFile):
                 os.rename(old, new)
         #  - fontconfig requires libtool version number, change it for the corresponding freetype one
         tools.replace_in_file(os.path.join(self._source_subfolder, 'configure'), '21.0.15', '2.8.1')
-        # The default FONTCONFIG_PATH on most of the *nix systems is /etc.
-        # Set FONTCONFIG_PATH only to source files to use it in the library by default.
+        # The default FONTCONFIG_PATH on most of the *nix systems is /etc/fonts.
+        # Set FONTCONFIG_PATH only to source files to use it in the library/tools by default.
         tools.replace_in_file(os.path.join(self._source_subfolder, 'src', 'Makefile.am'),
                               '-DFONTCONFIG_PATH=\'"$(BASECONFIGDIR)"\'',
                               '-DFONTCONFIG_PATH=\'"/etc/fonts"\'')
@@ -79,7 +79,7 @@ class FontconfigConan(ConanFile):
         tools.replace_in_file(os.path.join(self._source_subfolder, 'test', 'Makefile.in'),
                               '-DFONTCONFIG_PATH=\'"$(BASECONFIGDIR)"\'',
                               '-DFONTCONFIG_PATH=\'"/etc/fonts"\'')
-        # Disable test cases to avoid build errors
+        # Disable test cases to avoid installation failiures.
         tools.replace_in_file(os.path.join(self._source_subfolder, 'Makefile.am'),
                               'RUN_FC_CACHE_TEST=test -z "$(DESTDIR)"',
                               'RUN_FC_CACHE_TEST=false')
