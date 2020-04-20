@@ -18,7 +18,7 @@ extends:
     conanBuildTypes: "Debug,Release"
     conanStableBranchPattern: "release-kasun/*"
     # GCC specific
-    linuxGCCVersions: "7"
+    linuxGCCVersions: "5.4,7"
     # Apple clang specific
     appleClangVersions: "10"
     # CI specific settings
